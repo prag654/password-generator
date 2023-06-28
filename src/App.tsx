@@ -13,7 +13,6 @@ export default function App() {
         { title: "Include numbers", state: false },
         { title: "Include symbols", state: false }
     ]);
-    const [copied, setCopied] = useState(false);
 
     const handleCheckboxChange = (i:number) => {
         const updatedCheckboxData = [...checkboxData];
@@ -23,11 +22,6 @@ export default function App() {
 
     const handleCopy = () => {
         navigator.clipboard.writeText(password);
-        setCopied(true);
-
-        setTimeout(() => {
-            setCopied(false);
-        }, 1000);
     };
 
     const { password, errorMessage, generatePassword } = usePasswordGenerator();
