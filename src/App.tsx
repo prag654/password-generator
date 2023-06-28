@@ -1,26 +1,83 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import usePasswordGenerator from "./CustomeHooks/usePasswordGenerator";
+import PasswordStrengthIndicator from "./components/StrengthChecker";
+import Button from "./components/Button";
+import Checkbox from "./components/Checkbox";
+import { FaCopy } from 'react-icons/fa';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Kuldeep Prajapat
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+    const [length, setLength] = useState(4);
+    const [checkboxData, setCheckboxData] = useState([
+        { title: "Include uppercase letters", state: false },
+        { title: "Include lowercase letters", state: false },
+        { title: "Include numbers", state: false },
+        { title: "Include symbols", state: false }
+    ]);
+    const [copied, setCopied] = useState(false);
+
+    const handleCheckboxChange = (i:number) => {
+        const updatedCheckboxData = [...checkboxData];
+        updatedCheckboxData[i].state = !updatedCheckboxData[i].state;
+        setCheckboxData(updatedCheckboxData);
+    };
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(password);
+        setCopied(true);
+
+        setTimeout(() => {
+            setCopied(false);
+        }, 1000);
+    };
+
+    const { password, errorMessage, generatePassword } = usePasswordGenerator();
+
+    return (
+        <div className="app">
+            <div className='container'>
+                <div className='subContainer'>
+                    <h1 className="text-center">Password Generator</h1>
+                    <div>
+                        <input type="text" value={password} className="form-control" style={{background:"#041923"}} />
+                        <button
+                            onClick={handleCopy}
+                            className="copyBtn"
+                        > <FaCopy style = {{color: "white", fontSize: "1.9em"}} />
+                        </button>
+                    </div>
+                    <div className='option'>
+                    <label>Password length</label>
+                    <input
+                        type='number'
+                        name='length'
+                        min='4'
+                        max='20'
+                        defaultValue={length}
+                        onChange={(e:any) => setLength(e.target.value)}
+                    />
+                        <div className="option">
+                            {checkboxData.map((checkbox, index) => {
+                            return (
+                                <Checkbox
+                                    key={index}
+                                    title={checkbox.title}
+                                    onChange={() => handleCheckboxChange(index)}
+                                    state={checkbox.state}
+                                />
+                            );
+                        })}
+                         </div>
+                        <PasswordStrengthIndicator password={password} />
+
+                        {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+
+                        <Button
+                            text="Generate Password"
+                            onClick={() => generatePassword(checkboxData, length)}
+                            customClass="generateBtn" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
-
-export default App;
