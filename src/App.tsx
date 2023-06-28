@@ -47,6 +47,7 @@ export default function App() {
                         min='4'
                         max='20'
                         defaultValue={length}
+                        // disabled={length < 20 ? false : true}
                         onChange={(e:any) => setLength(e.target.value)}
                     />
                         <div className="option">
@@ -67,7 +68,7 @@ export default function App() {
 
                         <Button
                             text="Generate Password"
-                            onClick={() => generatePassword(checkboxData, length)}
+                            onClick={() => {generatePassword(checkboxData, length)}}
                             customClass="generateBtn" />
                     </div>
                 </div>
