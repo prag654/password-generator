@@ -49,6 +49,7 @@ export default function App() {
                         defaultValue={length}
                         // disabled={length < 20 ? false : true}
                         onChange={(e:any) => setLength(e.target.value)}
+                        id="pass"
                     />
                         <div className="option">
                             {checkboxData.map((checkbox, index) => {

@@ -1,21 +1,22 @@
 import React from "react";
+import { ErrorMessage } from "../enum/GlobleEnum";
 
 const PasswordStrengthIndicator = ({ password = "" }) => {
     const getPasswordStrength = () => {
         const passwordLength = password.length;
-
+        console.log('first', passwordLength)
         if (passwordLength < 1) {
             return "";
         } else if (passwordLength < 4) {
-            return "Very Weak";
+            return ErrorMessage.Very_Weak;
         } else if (passwordLength < 8) {
-            return "Poor";
+            return ErrorMessage.Poor;
         } else if (passwordLength < 12) {
-            return "Medium";
+            return ErrorMessage.Medium;
         } else if (passwordLength < 16) {
-            return "Strong";
+            return ErrorMessage.Strong;
         } else {
-            return "Very Strong";
+            return ErrorMessage.Very_Strong;
         }
     };
 
